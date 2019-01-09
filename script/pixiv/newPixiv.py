@@ -10,6 +10,7 @@ import re
 import zipfile
 import shutil
 import sys
+import base64
 
 class DmzjCrawler():
     # 标识下载数量
@@ -44,7 +45,7 @@ class DmzjCrawler():
                 return None
             link =  links[0]
             url = link['href'].replace('.html', '_all.html')
-            title = link['title']
+            title = base64.b64encode(link['title'].encode('utf-8')).decode()
             return '{ "url": "' +  url + '", "title": "' + title + '"}'
         except Exception as e:
             print(None)

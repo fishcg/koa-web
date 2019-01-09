@@ -21,7 +21,7 @@ class Email {
       auth: {
         user: email.user,
         pass: email.password
-      }
+      },
     }))
     this.attachments = []
     this.recipients = recipients
