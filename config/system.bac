@@ -15,6 +15,7 @@ for (PATH of PATHS) {
     if (!fs.existsSync(PATH)) fs.mkdirSync(PATH);
 }
 
+exports.PYTHON = 'python';
 exports.ENV = "dev"; // dev or prod
 exports.TEMP_PATH = TEMP_PATH;
 exports.LOG_PATH = LOG_PATH;

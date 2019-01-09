@@ -8,7 +8,7 @@ const nedb = require('../lib/NedbConnection')
 const logger = require('../lib/Logger')
 const admin = require('../config/admin')
 const Email = require('../component/Email')
-const { TEMP_PATH } = require('../config/system')
+const { TEMP_PATH, PYTHON } = require('../config/system')
 
 const execAsync = promisify(childProcess.exec)
 const pixivPath = path.join(TEMP_PATH, 'pixiv')
@@ -18,7 +18,7 @@ const pixivPath = path.join(TEMP_PATH, 'pixiv')
  *
  */
 async function getPixivPageUrl() {
-    let cmd = `python ../script/pixiv/newPixiv.py ${pixivPath}`;
+    let cmd = `${PYTHON} ../script/pixiv/newPixiv.py ${pixivPath}`;
     let stdoutInfo = await execAsync(cmd, { encoding: 'utf8' })
     let stdout = stdoutInfo.stdout.replace(/[\r\n]/g, '')
     if (stdout === 'None') {
@@ -65,7 +65,7 @@ async function getPixivPageUrl() {
  * @returns {String} pixiv 图片压缩包地址
  */
 async function getPixivFile() {
-    let cmd = `python ../script/pixiv/getFile.py ${pixivPath}`;
+    let cmd = `${PYTHON} ../script/pixiv/getFile.py ${pixivPath}`;
     let stdoutInfo = await execAsync(cmd, { encoding: 'utf8' })
     let stdout = stdoutInfo.stdout.replace(/[\r\n]/g, '')
     if (stdout === 'None') {
@@ -73,5 +73,9 @@ async function getPixivFile() {
     }
     return stdout
 }
+try {
+    getPixivPageUrl()
+} catch(e) {
+    logger.error(`美图投稿邮件错误，错误原因：${e.stack || e}`)
+}
 
-getPixivPageUrl()
