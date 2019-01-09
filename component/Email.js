@@ -35,19 +35,19 @@ class Email {
    * @throws {Error} 邮件发送失败时抛出异常
    */
   async send(subject, html) {
-      if (!subject || !html) {
-        throw new Error('发送邮件参数不合法')
-      }
-      this.smtpTransport.sendMailASync = util.promisify(this.smtpTransport.sendMail)
-      let res = await this.smtpTransport.sendMailASync({
-        from: email.user,
-        to: this.recipients,
-        subject: subject,
-        html: html,
-        attachments: this.attachments
-      })
-      this.attachments = []
-      return res
+    if (!subject || !html) {
+      throw new Error('发送邮件参数不合法')
+    }
+    this.smtpTransport.sendMailASync = util.promisify(this.smtpTransport.sendMail)
+    let res = await this.smtpTransport.sendMailASync({
+      from: email.user,
+      to: this.recipients,
+      subject: subject,
+      html: html,
+      attachments: this.attachments
+    })
+    this.attachments = []
+    return res
   }
 
   /**
@@ -67,6 +67,7 @@ class Email {
       }
     }
     this.attachments = attachments
+    return this
   }
 }
 

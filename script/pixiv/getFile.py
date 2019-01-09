@@ -10,6 +10,7 @@ import hashlib
 import re
 import zipfile
 import shutil
+import sys
 
 class DmzjCrawler():
     # 标识下载数量
@@ -114,8 +115,6 @@ class DmzjCrawler():
         return r
 
     def start(self):
-        print(None)
-        return
         url = 'https://news.dmzj.com/meituxinshang/p1.html'
         # print('\033[1;35m--------------------当前页数：', 1, '\033[0m')
         url = self.getImagesViewLinks(url, False)
@@ -127,11 +126,10 @@ class DmzjCrawler():
         print(dirPath)
 
 config = {
-    'downloadPath': 'F:/images/topic' # 下载根目录
+    'downloadPath': sys.argv[1] # 下载根目录
 }
 
 # 开启任务
 # TODO: 开启多任务应考虑并发量
 Dmzj = DmzjCrawler(config)
-Dmzj.start()
-#Dmzj.startDowndoad()
+Dmzj.startDowndoad()

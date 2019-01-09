@@ -1,0 +1,4 @@
+module.exports = {
+    pixiv: [], // pixiv 邮件通知用户的邮箱，如“['huateng@qq.com', 'dinglei@163.com']”
+    apiErr: [], // 程序运行出错通知邮箱
+}
