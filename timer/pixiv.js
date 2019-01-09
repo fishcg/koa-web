@@ -1,17 +1,32 @@
-const Koa = require('koa')
-const Router = require('koa-router')
-const middleware = require('../lib/middleware')
-const controller = require('../lib/controller')
+"use strict";
 
-const app = new Koa()
+const path = require('path');
+const fs = require('fs');
+const childProcess = require('child_process');
+const { promisify } = require('util');
 
-// 加载中间件
-middleware(app)
+const execAsync = promisify(childProcess.exec);
 
-// 设定路由
-controller(app)
+/**
+ * 获取音频相关信息
+ *
+ * @param {string} input_file 需要获取信息的音频
+ * @param {string} [entries=duration,bit_rate] 需要打印的项，为空时打印所有。
+ *
+ * @returns {object} 音频信息
+ *
+ * @throws 文件不存在或者项不合法时报错
+ */
+async function getPicPageUrl() {
+    let cmd = `python p.py`;
+    let stdoutInfo = await execAsync(cmd)
+    if (stdoutInfo.stdout === 'None') {
+        return null
+    }
+    console.log(stdoutInfo.stdout)
+}
+getPicPageUrl()
 
-
-app.listen(9999, () => {
-  console.log('异世界 --9999--> 启动')
-})
+/*
+exports.getSoundInfo = getSoundInfo;
+exports.toMP3 = toMP3;*/
