@@ -1,7 +1,6 @@
 "use strict";
 
 const path = require('path')
-const fs = require('fs')
 const childProcess = require('child_process')
 const { promisify } = require('util')
 const nedb = require('../lib/NedbConnection')
@@ -9,7 +8,7 @@ const logger = require('../lib/Logger')
 const admin = require('../config/admin')
 const Email = require('../component/Email')
 const { base64_decode } = require('../component/Utils')
-const { TEMP_PATH, PYTHON } = require('../config/system')
+const { TEMP_PATH, PYTHON, BASE_PATH } = require('../config/system')
 
 const execAsync = promisify(childProcess.exec)
 const pixivPath = path.join(TEMP_PATH, 'pixiv')
@@ -19,7 +18,8 @@ const pixivPath = path.join(TEMP_PATH, 'pixiv')
  *
  */
 async function getPixivPageUrl() {
-    let cmd = `${PYTHON} ../script/pixiv/newPixiv.py ${pixivPath}`;
+    let cmdPath = path.join(BASE_PATH, 'script/pixiv/newPixiv.py')
+    let cmd = `${PYTHON} ${cmdPath} ${pixivPath}`;
     let stdoutInfo = await execAsync(cmd)
     let stdout = stdoutInfo.stdout.replace(/[\r\n]/g, '')
     if (stdout === 'None') {
@@ -65,7 +65,8 @@ async function getPixivPageUrl() {
  * @returns {String} pixiv 图片压缩包地址
  */
 async function getPixivFile() {
-    let cmd = `${PYTHON} ../script/pixiv/getFile.py ${pixivPath}`;
+    let cmdPath = path.join(BASE_PATH, 'script/pixiv/getFile.py')
+    let cmd = `${PYTHON} ${cmdPath} ${pixivPath}`;
     let stdoutInfo = await execAsync(cmd, { encoding: 'utf8' })
     let stdout = stdoutInfo.stdout.replace(/[\r\n]/g, '')
     if (stdout === 'None') {

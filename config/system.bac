@@ -21,3 +21,4 @@ exports.TEMP_PATH = TEMP_PATH;
 exports.LOG_PATH = LOG_PATH;
 exports.DB_FILE = DB_FILE;
 exports.PROTO_ROOT = PROTO_ROOT
+exports.BASE_PATH = BASE_PATH
