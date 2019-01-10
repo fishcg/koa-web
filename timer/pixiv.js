@@ -34,11 +34,12 @@ async function getPixivPageUrl() {
     let pixiv = await nedb.findOneASync({ doc_type: nedb.docTypes.PIXIV })
     if (!pixiv) {
         // 若不存在，创建新记录
-        pixiv = await nedb.insertASync({ doc_type: nedb.docTypes.PIXIV, page_url: pageUrl })
-    } else if (pixiv.page_url === pageUrl) {
+        await nedb.insertASync({ doc_type: nedb.docTypes.PIXIV, page_url: pageUrl, isSend: false })
+    } else if (pixiv.page_url === pageUrl && pixiv.isSend) {
         logger.info("need't update pixiv")
         return
     }
+    logger.info('准备发送最新美图投稿邮件')
     // 若记录值不同，替换为最新图片页面地址并下载
     await nedb.updateASync({ doc_type: nedb.docTypes.PIXIV}, { $set: { page_url: pageUrl } })
     let filePath = await getPixivFile()
@@ -54,6 +55,8 @@ async function getPixivPageUrl() {
     await email
       .addAttachment([{"filename": `${title}.zip`, "path": filePath }])
       .send(subject, content)
+    // 修改为已发送状态
+    await nedb.updateASync({ doc_type: nedb.docTypes.PIXIV}, { $set: { isSend: true } })
     logger.info('美图投稿邮件发送成功')
 }
 
