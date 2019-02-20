@@ -1,7 +1,8 @@
 const R = require('ramda');
 const crypto = require('crypto');
 
-function timing_task(func, seconds) {
+const asyncSleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+function timingTask(func, seconds) {
     let delay = seconds * 1000;
     func();
     setInterval(func, delay);
@@ -51,7 +52,8 @@ function hash_hmac(algorithm, data, key) {
     return crypto.createHmac(algorithm, key).update(data).digest('hex');
 }
 
-exports.timing_task = timing_task;
+exports.asyncSleep = asyncSleep
+exports.timingTask = timingTask
 exports.findIndexByAttr = findIndexByAttr;
 exports.hash_hmac = hash_hmac;
 exports.base64_decode = base64_decode;
