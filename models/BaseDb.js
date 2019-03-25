@@ -1,3 +1,4 @@
+// http://docs.sequelizejs.com
 const Sequelize = require('sequelize')
 const uuid = require('node-uuid')
 const { mysql } = require('../config/db')
@@ -12,6 +13,7 @@ let sequelize = new Sequelize(mysql.database, mysql.user, mysql.password, {
   logging: () => {
     return false
   },
+  freezeTableName: true,
   pool: {
     max: 5,
     min: 0,
@@ -29,7 +31,7 @@ const ID_TYPE = Sequelize.INTEGER(10)
  * @return {Model}
  */
 function defineModel(name, attributes) {
-  var attrs = {}
+  let attrs = {}
   for (let key in attributes) {
     let value = attributes[key]
     if (typeof value === 'object' && value['type']) {
@@ -55,7 +57,7 @@ function defineModel(name, attributes) {
     type: Sequelize.INTEGER(10),
     allowNull: false,
   }
-  return sequelize.define(name, attrs, {
+  let model =  sequelize.define(name, attrs, {
     tableName: name,
     timestamps: false,
     logging: false,
@@ -74,16 +76,20 @@ function defineModel(name, attributes) {
       },
     },
   })
+  /*model.attributes()= async () => {
+    return this
+  }*/
+  return model
 }
 
-const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN'];
+const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN']
 
 let exp = {
   defineModel: defineModel,
   sync: () => {
     // only allow create ddl in non-production environment:
     if (process.env.NODE_ENV !== 'production') {
-      sequelize.sync({ force: true });
+      sequelize.sync({ force: true })
     } else {
       throw new Error('Cannot sync() when NODE_ENV is set to \'production\'.');
     }

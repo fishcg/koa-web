@@ -19,11 +19,11 @@ const pixivPath = path.join(TEMP_PATH, 'pixiv')
  */
 async function getPixivPageUrl() {
     let cmdPath = path.join(BASE_PATH, 'script/pixiv/newPixiv.py')
-    let cmd = `${PYTHON} ${cmdPath} ${pixivPath}`;
+    let cmd = `${PYTHON} ${cmdPath} ${pixivPath}`
     let stdoutInfo = await execAsync(cmd)
     let stdout = stdoutInfo.stdout.replace(/[\r\n]/g, '')
     if (stdout === 'None') {
-        logger.warn('获取 PIXIV 图片页地址出错');
+        logger.warn('获取 PIXIV 图片页地址出错')
         return
     }
     let pixivInfo = JSON.parse(stdout)

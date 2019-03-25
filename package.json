@@ -9,6 +9,7 @@
   "author": "fish",
   "license": "ISC",
   "dependencies": {
+    "art-template": "^4.13.2",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",

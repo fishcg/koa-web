@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>site</title>
+</head>
+site {{ value }}
+<% for(var i = 0; i < target.length; i++){ %>
+<%= i %> <%= target[i] %>
+<% } %>
+<% for (let v of target) {%>
+    <%= v %>
+<%} %>
+{{each target}}
+    {{if $value === 'apple'}}
+        {{$index}} => {{$value}}
+    {{/if}}
+{{/each}}
+</html>
