@@ -89,11 +89,11 @@ function createLineReader(fileName) {
 }
 
 createLineReader('keywords')
-module.exports=textCheck
+module.exports = textCheck
 /*setInterval(function () {
   let t = new Date().getTime()
   console.log(t)
-  console.log(gfw.filter('JS时间格式阳与时间戳的相互转换 有些时候在写前端的时候,需要用到一些时间,但是时间的格式又比较多,除了时间戳之外,还有各种各样的格式我操傻逼就是你习近平卖淫', "*"))
+  console.log(gfw.filter('这是测试违规词汇，我操傻逼就是还有卖淫', "*"))
   console.log(new Date().getTime() - t)
 }, 2000)*/
 // gfw.add('法轮功')
